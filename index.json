@@ -1,8 +1,8 @@
 {
-  "$schema": "https://schemas.heyry.tools/registry/index/v1/index.schema.json",
+  "$schema": "https://schema.heyry.tools/registry/index/v1/index.schema.json",
   "schemas": [
     {
-      "id": "https://schemas.heyry.tools/core/heyry-id/v1/heyry-id.schema.json",
+      "id": "https://schema.heyry.tools/core/heyry-id/v1/heyry-id.schema.json",
       "name": "HEYRY Tools Identifier",
       "domain": "core",
       "version": "1.0.0",
@@ -11,7 +11,7 @@
       "description": "HEYRY ID in canonical form XXXX-XXXX-XXXX-CC. X is an uppercase letter or digit drawn from the 32-character set A–H, J–N, P, R–Z, 0–9 (I, O, Q excluded). The 12-character body MUST be generated using a high-quality source of randomness and MUST NOT contain human-chosen patterns, words, or sequences (e.g., ABCD, 1234, EFGH). CC is the first two uppercase hexadecimal characters of the SHA-256 hash of the 12-character body (the 12 X characters with hyphens removed). This identifier is used as the standardized key for products, assemblies, serial numbers, batches, bins, employees, customers, and orders, as defined in the HEYRY ID Specification."
     },
     {
-      "id": "https://schemas.heyry.tools/core/schema-metadata/v1/schema-metadata.schema.json",
+      "id": "https://schema.heyry.tools/core/schema-metadata/v1/schema-metadata.schema.json",
       "name": "HEYRY Tools Schema Metadata",
       "domain": "core",
       "version": "1.0.0",
@@ -20,7 +20,16 @@
       "description": "Meta-schema enforcing required metadata for all HEYRY Tools JSON Schemas."
     },
     {
-      "id": "https://schemas.heyry.tools/registry/index/v1/index.schema.json",
+      "id": "https://schema.heyry.tools/core/semantic-version/v1/semantic-version.schema.json",
+      "name": "Semantic Version (SemVer 2.0.0)",
+      "domain": "core",
+      "version": "1.0.0",
+      "status": "approved",
+      "path": "schemas/core/semantic-version/v1/semantic-version.schema.json",
+      "description": "Semantic version string following SemVer 2.0.0 (no leading 'v')."
+    },
+    {
+      "id": "https://schema.heyry.tools/registry/index/v1/index.schema.json",
       "name": "HEYRY Tools Schema Registry Index",
       "domain": "registry",
       "version": "1.0.0",

@@ -10,7 +10,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS_ROOT = REPO_ROOT / "schemas"
 INDEX_JSON_PATH = REPO_ROOT / "index.json"
 INDEX_HTML_PATH = REPO_ROOT / "index.html"
-INDEX_SCHEMA_ID = "https://schemas.heyry.tools/registry/index/v1/index.schema.json"
+INDEX_SCHEMA_ID = "https://schema.heyry.tools/registry/index/v1/index.schema.json"
 
 
 def load_schema_metadata() -> list[dict[str, str]]:
@@ -42,7 +42,7 @@ def write_index_json(entries: list[dict[str, str]]) -> None:
 
 
 def write_index_html() -> None:
-  html = """<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title>HEYRY Tools Schemas</title>\n  </head>\n  <body>\n    <h1>HEYRY Tools Schemas</h1>\n    <p>This site hosts the public JSON schema registry for HEYRY Tools.</p>\n    <p><a href=\"index.json\">View the schema index</a></p>\n  </body>\n</html>\n"""
+  html = """<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title>HEYRY Tools Schemas</title>\n  </head>\n  <body>\n    <h1>HEYRY Tools Schemas</h1>\n    <p>This site hosts the public JSON schema registry for HEYRY Tools.</p>\n    <p><a href=\"index.json\">View the schema index</a></p>\n    <section>\n      <h2>Repository Documentation</h2>\n      <p>Refer to the <a href=\"README.md\">README</a> for usage guidance or review the <a href=\"LICENSE\">LICENSE</a> for distribution terms.</p>\n    </section>\n  </body>\n</html>\n"""
   with INDEX_HTML_PATH.open("w", encoding="utf-8") as handle:
     handle.write(html)
 

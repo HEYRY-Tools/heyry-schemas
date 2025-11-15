@@ -13,6 +13,7 @@ from jsonschema import Draft7Validator, RefResolver, ValidationError
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS_ROOT = REPO_ROOT / "schemas"
 EXAMPLES_ROOT = REPO_ROOT / "examples"
+SCHEMA_BASE_URL = "https://schema.heyry.tools/"
 
 
 def load_json(path: Path):
@@ -31,9 +32,9 @@ def build_schema_store() -> dict[str, dict]:
 
 
 def find_schema_path(schema_uri: str) -> Path:
-  if not schema_uri.startswith("https://schemas.heyry.tools/"):
+  if not schema_uri.startswith(SCHEMA_BASE_URL):
     raise FileNotFoundError(f"Unsupported schema URI: {schema_uri}")
-  relative = schema_uri.replace("https://schemas.heyry.tools/", "")
+  relative = schema_uri.replace(SCHEMA_BASE_URL, "")
   return SCHEMAS_ROOT / relative
 
 

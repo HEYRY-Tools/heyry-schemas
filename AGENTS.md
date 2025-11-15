@@ -31,12 +31,21 @@ All schemas MUST:
 - Place schemas only under `schemas/<domain>/<schema-name>/v<major>/`.
 - Name all schema files `<schema-name>.schema.json`.
 - Use `$id` URLs of the form:
-  `https://schemas.heyry.tools/<domain>/<schema-name>/v<major>/<schema-name>.schema.json`
+  `https://schema.heyry.tools/<domain>/<schema-name>/v<major>/<schema-name>.schema.json`.
+  If a prompt, example, or legacy file shows `https://schemas.heyry.tools/` or any
+  other host, agents MUST still normalize to `https://schema.heyry.tools/`.
+- Before defining new structures, agents MUST check whether a base schema
+  already exists (e.g., identifiers, semantic versions, metadata) and
+  reuse those schemas as building blocks via `$ref`, `allOf`, or other
+  JSON Schema composition features whenever applicable.
 
 Agents MUST validate that:
 - `$id` path matches folder path.
 - `schema_version` is valid semver (MAJOR.MINOR.PATCH).
 - `additionalProperties` rules follow the spec of each schema type.
+
+Agents MUST run `invoke check` before every submission. This command runs the
+full validation suite and MUST pass with no errors.
 
 ## 4. Examples
 

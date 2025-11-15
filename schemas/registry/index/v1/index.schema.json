@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$id": "https://schemas.heyry.tools/registry/index/v1/index.schema.json",
+  "$id": "https://schema.heyry.tools/registry/index/v1/index.schema.json",
   "title": "HEYRY Tools Schema Registry Index",
   "description": "Schema describing the generated index.json file for the HEYRY Tools schema registry.",
   "schema_version": "1.0.0",
@@ -11,7 +11,7 @@
   "properties": {
     "$schema": {
       "type": "string",
-      "const": "https://schemas.heyry.tools/registry/index/v1/index.schema.json"
+      "const": "https://schema.heyry.tools/registry/index/v1/index.schema.json"
     },
     "schemas": {
       "type": "array",
@@ -20,7 +20,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uri"
+            "pattern": "^https://schema\\.heyry\\.tools/.+/v[0-9]+/.+\\.schema\\.json$"
           },
           "name": {
             "type": "string",

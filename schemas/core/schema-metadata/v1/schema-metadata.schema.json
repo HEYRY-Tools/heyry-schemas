@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$id": "https://schemas.heyry.tools/core/schema-metadata/v1/schema-metadata.schema.json",
+  "$id": "https://schema.heyry.tools/core/schema-metadata/v1/schema-metadata.schema.json",
   "title": "HEYRY Tools Schema Metadata",
   "description": "Meta-schema enforcing required metadata for all HEYRY Tools JSON Schemas.",
   "schema_version": "1.0.0",
@@ -15,7 +15,7 @@
     },
     "$id": {
       "type": "string",
-      "pattern": "^https://schemas\\.heyry\\.tools/.+/v[0-9]+/.+\\.schema\\.json$"
+      "pattern": "^https://schema\\.heyry\\.tools/.+/v[0-9]+/.+\\.schema\\.json$"
     },
     "title": {
       "type": "string",

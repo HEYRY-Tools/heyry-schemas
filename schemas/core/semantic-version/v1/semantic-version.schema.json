@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.heyry.tools/core/semantic-version/v1/semantic-version.schema.json",
+  "title": "Semantic Version (SemVer 2.0.0)",
+  "description": "Semantic version string following SemVer 2.0.0 (no leading 'v').",
+  "$comment": "MAJOR = breaking changes. MINOR = backward-compatible features. PATCH = backward-compatible fixes. AI and tools MUST NOT silently bump versions.",
+  "schema_version": "1.0.0",
+  "domain": "core",
+  "owner_role": "schema_registry_team",
+  "status": "approved",
+  "type": "string",
+  "format": "heyry-semver-v1",
+  "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$",
+  "minLength": 5,
+  "maxLength": 64,
+  "examples": [
+    "0.1.0",
+    "1.0.0",
+    "1.2.3",
+    "2.1.0-beta.1",
+    "3.0.0+build.5",
+    "4.2.1-rc.0+exp.sha.5114f85"
+  ]
+}

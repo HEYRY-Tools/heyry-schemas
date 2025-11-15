@@ -1,0 +1,26 @@
+name: Validate Schemas
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Generate schema index
+        run: |
+          python scripts/generate_index.py
+          git diff --exit-code index.json index.html
+      - name: Validate schema metadata
+        run: python scripts/validate_schema_metadata.py
+      - name: Validate examples
+        run: python scripts/validate_examples.py

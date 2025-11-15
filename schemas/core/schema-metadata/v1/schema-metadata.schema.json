@@ -7,6 +7,7 @@
   "domain": "core",
   "owner_role": "schema_registry_team",
   "status": "approved",
+  "heyry_id": "4N46-GFYY-1GH1-21",
   "type": "object",
   "properties": {
     "$schema": {
@@ -26,8 +27,7 @@
       "minLength": 1
     },
     "schema_version": {
-      "type": "string",
-      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$"
+      "$ref": "https://schema.heyry.tools/core/semantic-version/v1/semantic-version.schema.json"
     },
     "domain": {
       "type": "string",
@@ -45,6 +45,9 @@
         "approved",
         "deprecated"
       ]
+    },
+    "heyry_id": {
+      "$ref": "https://schema.heyry.tools/core/heyry-id/v1/heyry-id.schema.json"
     }
   },
   "required": [
@@ -52,7 +55,11 @@
     "$id",
     "title",
     "description",
-    "schema_version"
+    "schema_version",
+    "domain",
+    "owner_role",
+    "status",
+    "heyry_id"
   ],
   "additionalProperties": true
 }

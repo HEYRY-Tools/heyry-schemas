@@ -7,6 +7,7 @@
   "domain": "registry",
   "owner_role": "schema_registry_team",
   "status": "approved",
+  "heyry_id": "LNW9-UEXX-LCG5-09",
   "type": "object",
   "properties": {
     "$schema": {

@@ -8,6 +8,7 @@
   "domain": "core",
   "owner_role": "schema_registry_team",
   "status": "approved",
+  "heyry_id": "BXMS-P17D-HFMN-53",
   "type": "string",
   "format": "heyry-semver-v1",
   "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$",

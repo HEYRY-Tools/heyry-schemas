@@ -7,14 +7,18 @@ import json
 import sys
 from pathlib import Path
 
-from jsonschema import Draft7Validator, ValidationError
+from jsonschema import Draft7Validator, RefResolver, ValidationError
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS_ROOT = REPO_ROOT / "schemas"
 META_SCHEMA_PATH = REPO_ROOT / "schemas" / "core" / "schema-metadata" / "v1" / "schema-metadata.schema.json"
+HEYRY_ID_SCHEMA_PATH = REPO_ROOT / "schemas" / "core" / "heyry-id" / "v1" / "heyry-id.schema.json"
+SEMVER_SCHEMA_PATH = REPO_ROOT / "schemas" / "core" / "semantic-version" / "v1" / "semantic-version.schema.json"
 SCHEMA_BASE_URL = "https://schema.heyry.tools"
 DRAFT_07_URI = "https://json-schema.org/draft-07/schema#"
+HEYRY_ID_SCHEMA_ID = "https://schema.heyry.tools/core/heyry-id/v1/heyry-id.schema.json"
+SEMVER_SCHEMA_ID = "https://schema.heyry.tools/core/semantic-version/v1/semantic-version.schema.json"
 
 
 def load_json(path: Path) -> dict:
@@ -24,7 +28,16 @@ def load_json(path: Path) -> dict:
 
 def main() -> int:
   meta_schema = load_json(META_SCHEMA_PATH)
-  validator = Draft7Validator(meta_schema)
+  heyr_id_schema = load_json(HEYRY_ID_SCHEMA_PATH)
+  semver_schema = load_json(SEMVER_SCHEMA_PATH)
+  resolver = RefResolver.from_schema(
+    meta_schema,
+    store={
+      HEYRY_ID_SCHEMA_ID: heyr_id_schema,
+      SEMVER_SCHEMA_ID: semver_schema,
+    },
+  )
+  validator = Draft7Validator(meta_schema, resolver=resolver)
 
   schema_files = sorted(SCHEMAS_ROOT.rglob("*.schema.json"))
 

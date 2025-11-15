@@ -37,7 +37,7 @@ def load_schema_metadata() -> list[dict[str, str]]:
 def write_index_json(entries: list[dict[str, str]]) -> None:
   payload = {"$schema": INDEX_SCHEMA_ID, "schemas": entries}
   with INDEX_JSON_PATH.open("w", encoding="utf-8") as handle:
-    json.dump(payload, handle, indent=2)
+    json.dump(payload, handle, indent=2, ensure_ascii=False)
     handle.write("\n")
 
 

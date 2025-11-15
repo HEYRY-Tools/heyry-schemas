@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "status": "approved",
       "path": "schemas/core/heyry-id/v1/heyry-id.schema.json",
-      "description": "Canonical identifier format for HEYRY Tools documents and resources."
+      "description": "HEYRY ID in canonical form XXXX-XXXX-XXXX-CC. X is an uppercase letter or digit drawn from the 32-character set A–H, J–N, P, R–Z, 0–9 (I, O, Q excluded). The 12-character body MUST be generated using a high-quality source of randomness and MUST NOT contain human-chosen patterns, words, or sequences (e.g., ABCD, 1234, EFGH). CC is the first two uppercase hexadecimal characters of the SHA-256 hash of the 12-character body (the 12 X characters with hyphens removed). This identifier is used as the standardized key for products, assemblies, serial numbers, batches, bins, employees, customers, and orders, as defined in the HEYRY ID Specification."
     },
     {
       "id": "https://schemas.heyry.tools/core/schema-metadata/v1/schema-metadata.schema.json",

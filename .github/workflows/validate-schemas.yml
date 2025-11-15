@@ -20,6 +20,8 @@ jobs:
         run: |
           python scripts/generate_index.py
           git diff --exit-code index.json index.html
+      - name: Validate pretty formatting
+        run: python scripts/validate_pretty_format.py
       - name: Validate schema metadata
         run: python scripts/validate_schema_metadata.py
       - name: Validate examples

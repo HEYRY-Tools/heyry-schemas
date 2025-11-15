@@ -13,7 +13,6 @@
   "minLength": 17,
   "maxLength": 17,
   "pattern": "^[A-HJ-NPR-Z0-9]{4}-[A-HJ-NPR-Z0-9]{4}-[A-HJ-NPR-Z0-9]{4}-[A-F0-9]{2}$",
-
   "examples": [
     "1L1P-D7EZ-P2EJ-66",
     "SDRM-CF7B-ER0M-2F",

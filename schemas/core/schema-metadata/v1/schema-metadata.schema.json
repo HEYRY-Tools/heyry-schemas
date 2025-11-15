@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.heyry.tools/core/schema-metadata/v1/schema-metadata.schema.json",
+  "title": "HEYRY Tools Schema Metadata",
+  "description": "Meta-schema enforcing required metadata for all HEYRY Tools JSON Schemas.",
+  "schema_version": "1.0.0",
+  "domain": "core",
+  "owner_role": "schema_registry_team",
+  "status": "approved",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://json-schema.org/draft-07/schema#"
+    },
+    "$id": {
+      "type": "string",
+      "pattern": "^https://schemas\\.heyry\\.tools/.+/v[0-9]+/.+\\.schema\\.json$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$"
+    },
+    "domain": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner_role": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "in_review",
+        "approved",
+        "deprecated"
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "$id",
+    "title",
+    "description",
+    "schema_version"
+  ],
+  "additionalProperties": true
+}

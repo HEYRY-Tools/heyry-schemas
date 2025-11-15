@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.heyry.tools/registry/index/v1/index.schema.json",
+  "title": "HEYRY Tools Schema Registry Index",
+  "description": "Schema describing the generated index.json file for the HEYRY Tools schema registry.",
+  "schema_version": "1.0.0",
+  "domain": "registry",
+  "owner_role": "schema_registry_team",
+  "status": "approved",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://schemas.heyry.tools/registry/index/v1/index.schema.json"
+    },
+    "schemas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uri"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "in_review",
+              "approved",
+              "deprecated"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^schemas/.+/.+/.+\\.schema\\.json$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "domain",
+          "version",
+          "status",
+          "path",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "schemas"
+  ],
+  "additionalProperties": false
+}

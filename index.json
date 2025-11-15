@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schemas.heyry.tools/registry/index/v1/index.schema.json",
+  "schemas": [
+    {
+      "id": "https://schemas.heyry.tools/core/heyry-id/v1/heyry-id.schema.json",
+      "name": "HEYRY Tools Identifier",
+      "domain": "core",
+      "version": "1.0.0",
+      "status": "approved",
+      "path": "schemas/core/heyry-id/v1/heyry-id.schema.json",
+      "description": "Canonical identifier format for HEYRY Tools documents and resources."
+    },
+    {
+      "id": "https://schemas.heyry.tools/core/schema-metadata/v1/schema-metadata.schema.json",
+      "name": "HEYRY Tools Schema Metadata",
+      "domain": "core",
+      "version": "1.0.0",
+      "status": "approved",
+      "path": "schemas/core/schema-metadata/v1/schema-metadata.schema.json",
+      "description": "Meta-schema enforcing required metadata for all HEYRY Tools JSON Schemas."
+    },
+    {
+      "id": "https://schemas.heyry.tools/registry/index/v1/index.schema.json",
+      "name": "HEYRY Tools Schema Registry Index",
+      "domain": "registry",
+      "version": "1.0.0",
+      "status": "approved",
+      "path": "schemas/registry/index/v1/index.schema.json",
+      "description": "Schema describing the generated index.json file for the HEYRY Tools schema registry."
+    }
+  ]
+}

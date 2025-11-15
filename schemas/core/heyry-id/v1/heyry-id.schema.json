@@ -2,15 +2,21 @@
   "$schema": "https://json-schema.org/draft-07/schema#",
   "$id": "https://schemas.heyry.tools/core/heyry-id/v1/heyry-id.schema.json",
   "title": "HEYRY Tools Identifier",
-  "description": "Canonical identifier format for HEYRY Tools documents and resources.",
+  "description": "HEYRY ID in canonical form XXXX-XXXX-XXXX-CC. X is an uppercase letter or digit drawn from the 32-character set A–H, J–N, P, R–Z, 0–9 (I, O, Q excluded). The 12-character body MUST be generated using a high-quality source of randomness and MUST NOT contain human-chosen patterns, words, or sequences (e.g., ABCD, 1234, EFGH). CC is the first two uppercase hexadecimal characters of the SHA-256 hash of the 12-character body (the 12 X characters with hyphens removed). This identifier is used as the standardized key for products, assemblies, serial numbers, batches, bins, employees, customers, and orders, as defined in the HEYRY ID Specification.",
+  "$comment": "Implements HEYRY ID Specification v1.0.5 (document HEYRY ID RRR0-A4NK-L7WV-95). IDs MUST be randomly generated and must not be user-selected or hand-crafted.",
   "schema_version": "1.0.0",
   "domain": "core",
   "owner_role": "schema_registry_team",
   "status": "approved",
   "type": "string",
+  "format": "heyry-id-v1",
+  "minLength": 17,
+  "maxLength": 17,
   "pattern": "^[A-HJ-NPR-Z0-9]{4}-[A-HJ-NPR-Z0-9]{4}-[A-HJ-NPR-Z0-9]{4}-[A-F0-9]{2}$",
+
   "examples": [
-    "AB12-CD34-EF56-9A",
-    "H7K9-JL2P-Q4RS-3F"
+    "1L1P-D7EZ-P2EJ-66",
+    "SDRM-CF7B-ER0M-2F",
+    "6UFN-CATU-DB4J-57"
   ]
 }

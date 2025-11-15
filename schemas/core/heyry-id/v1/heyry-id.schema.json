@@ -8,6 +8,7 @@
   "domain": "core",
   "owner_role": "schema_registry_team",
   "status": "approved",
+  "heyry_id": "WM1K-BGGJ-5WUP-49",
   "type": "string",
   "format": "heyry-id-v1",
   "minLength": 17,

@@ -44,6 +44,8 @@ Agents MUST validate that:
 - `schema_version` is valid semver (MAJOR.MINOR.PATCH).
 - `additionalProperties` rules follow the spec of each schema type.
 
+The `schema-metadata` meta-schema is not part of native JSON Schema behavior. It is a governance tool that validates HEYRY schema files in CI, ensuring required metadata (including HEYRY IDs) is present and correctly formatted. It does not participate in runtime document validation and is not referenced by `$schema`.
+
 Agents MUST run `invoke check` before every submission. This command runs the
 full validation suite and MUST pass with no errors.
 

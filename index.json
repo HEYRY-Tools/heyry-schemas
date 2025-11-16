@@ -38,6 +38,15 @@
       "description": "Standard document header metadata for specifications, policies, and procedures."
     },
     {
+      "id": "https://schema.heyry.tools/documents/document-revision-history/v1/document-revision-history.schema.json",
+      "name": "Document Revision History",
+      "domain": "documents",
+      "version": "1.0.0",
+      "status": "draft",
+      "path": "schemas/documents/document-revision-history/v1/document-revision-history.schema.json",
+      "description": "Chronological record of document updates capturing the version, author, and key summary for each change entry."
+    },
+    {
       "id": "https://schema.heyry.tools/registry/index/v1/index.schema.json",
       "name": "HEYRY Tools Schema Registry Index",
       "domain": "registry",

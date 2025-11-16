@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.heyry.tools/documents/document-revision-history/v1/document-revision-history.schema.json",
+  "title": "Document Revision History",
+  "description": "Chronological record of document updates capturing the version, author, and key summary for each change entry.",
+  "schema_version": "1.0.0",
+  "domain": "documents",
+  "owner_role": "knowledge_management_team",
+  "status": "draft",
+  "heyry_id": "R2VH-H1ST-0RYL-9A",
+  "copyright": "Copyright HEYRY Tools. All rights reserved.",
+  "type": "object",
+  "properties": {
+    "revisions": {
+      "type": "array",
+      "description": "Ordered list of change entries, most recent last.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "ISO 8601 calendar date when the change was published."
+          },
+          "version": {
+            "$ref": "https://schema.heyry.tools/core/semantic-version/v1/semantic-version.schema.json",
+            "description": "Document version after the update was applied."
+          },
+          "updated_by": {
+            "type": "string",
+            "description": "Full name or accountable role of the person applying the change.",
+            "minLength": 3,
+            "maxLength": 100
+          },
+          "summary_of_change": {
+            "type": "string",
+            "description": "Concise explanation of what changed and why.",
+            "minLength": 10,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "date",
+          "version",
+          "updated_by",
+          "summary_of_change"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "uniqueItems": false
+    }
+  },
+  "required": [
+    "revisions"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "revisions": [
+        {
+          "date": "2024-05-01",
+          "version": "1.0.0",
+          "updated_by": "Alex Rivera",
+          "summary_of_change": "Initial release capturing the baseline secure deployment checklist."
+        },
+        {
+          "date": "2024-06-10",
+          "version": "1.1.0",
+          "updated_by": "Morgan Lee",
+          "summary_of_change": "Added peer review requirement and clarified evidence upload locations."
+        }
+      ]
+    }
+  ]
+}

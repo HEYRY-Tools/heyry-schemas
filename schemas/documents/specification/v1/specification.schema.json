@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.heyry.tools/documents/specification/v1/specification.schema.json",
+  "title": "Specification Document",
+  "description": "Structured specification template combining standard document headers, scoped body content, and a revision history footer.",
+  "$comment": "Combines the document header and revision history schemas so teams can publish deterministic specifications.",
+  "schema_version": "1.0.0",
+  "domain": "documents",
+  "owner_role": "knowledge_management_team",
+  "status": "draft",
+  "heyry_id": "S3P3-CF47-XL0B-76",
+  "copyright": "Copyright HEYRY Tools. All rights reserved.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Canonical reference to the specification schema version.",
+      "const": "https://schema.heyry.tools/documents/specification/v1/specification.schema.json"
+    },
+    "header": {
+      "description": "Document header metadata extended with specification identity fields.",
+      "allOf": [
+        {
+          "$ref": "https://schema.heyry.tools/documents/document-header/v1/document-header.schema.json"
+        },
+        {
+          "type": "object",
+          "required": [
+            "heyry_id",
+            "version",
+            "author",
+            "priority",
+            "status"
+          ]
+        }
+      ]
+    },
+    "body": {
+      "type": "object",
+      "description": "Problem statement, context, scope, requirements, and code examples that make up the specification content.",
+      "properties": {
+        "problem_statement": {
+          "type": "string",
+          "description": "Narrative describing the core business or technical problem addressed by the specification.",
+          "minLength": 40,
+          "maxLength": 10000
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional background, rationale, or constraints that influence the specification.",
+          "minLength": 40,
+          "maxLength": 20000
+        },
+        "goals": {
+          "type": "array",
+          "description": "Measurable goals or success criteria derived from the problem statement.",
+          "items": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 1000
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "scope": {
+          "type": "object",
+          "description": "Explicit in-scope and optional out-of-scope boundaries for the specification.",
+          "properties": {
+            "in_scope": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 500
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "out_of_scope": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 500
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "in_scope"
+          ],
+          "additionalProperties": false
+        },
+        "requirements": {
+          "type": "array",
+          "description": "Functional and non-functional requirements with identifiers and acceptance criteria.",
+          "items": {
+            "type": "object",
+            "description": "Individual requirement entry with identifier, statement, and status.",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]+(?:-[A-Z0-9]+)*$",
+                "minLength": 5,
+                "maxLength": 100
+              },
+              "statement": {
+                "type": "string",
+                "minLength": 20,
+                "maxLength": 8000
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "functional",
+                  "non-functional",
+                  "security",
+                  "ux",
+                  "compliance",
+                  "operational"
+                ]
+              },
+              "priority": {
+                "type": "string",
+                "pattern": "^P[0-4]$"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "draft",
+                  "in_review",
+                  "approved",
+                  "implemented",
+                  "deprecated"
+                ]
+              },
+              "acceptance_criteria": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 2000
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "id",
+              "statement",
+              "type",
+              "priority",
+              "status"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "design_overview": {
+          "type": "string",
+          "description": "High-level architecture or design notes that explain how the requirements are satisfied.",
+          "minLength": 40,
+          "maxLength": 20000
+        },
+        "validation_plan": {
+          "type": "array",
+          "description": "Deterministic validation steps, sample test cases, or scenarios used to verify the implementation.",
+          "items": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 2000
+          },
+          "minItems": 1
+        },
+        "examples": {
+          "type": "array",
+          "description": "Executable or pseudo-code snippets showing how to implement or consume the specification.",
+          "items": {
+            "type": "object",
+            "description": "Language-specific example demonstrating the specification.",
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 200
+              },
+              "code": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 20000
+              }
+            },
+            "required": [
+              "title",
+              "code"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "problem_statement",
+        "context",
+        "goals",
+        "scope",
+        "requirements",
+        "design_overview",
+        "validation_plan",
+        "examples"
+      ],
+      "additionalProperties": false
+    },
+    "footer": {
+      "type": "object",
+      "description": "Revision history and other trailing metadata for the specification.",
+      "properties": {
+        "revision_history": {
+          "$ref": "https://schema.heyry.tools/documents/document-revision-history/v1/document-revision-history.schema.json"
+        }
+      },
+      "required": [
+        "revision_history"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "header",
+    "body",
+    "footer"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "header": {
+        "title": "Example Specification",
+        "description": "Describes how to structure a sample specification.",
+        "created_date": "2024-01-01",
+        "last_updated_date": "2024-01-02",
+        "tags": [
+          "sample"
+        ],
+        "links": [
+          {
+            "label": "Source",
+            "url": "https://schema.heyry.tools/docs/example"
+          }
+        ],
+        "heyry_id": "AAAA-BBBB-CCCC-DD",
+        "version": "1.0.0",
+        "author": "Sample Owner",
+        "priority": "P2",
+        "status": "draft"
+      },
+      "body": {
+        "problem_statement": "Example problem statement for demonstration purposes only.",
+        "context": "Example context describing how teams collaborate across internal tooling workflows.",
+        "goals": [
+          "Example goal"
+        ],
+        "scope": {
+          "in_scope": [
+            "Sample"
+          ]
+        },
+        "requirements": [
+          {
+            "id": "REQ-001",
+            "statement": "Sample requirement statement for testing.",
+            "type": "functional",
+            "priority": "P2",
+            "status": "draft"
+          }
+        ],
+        "design_overview": "Example design overview describing the main integration steps required to ship the specification.",
+        "validation_plan": [
+          "Sample validation"
+        ],
+        "examples": [
+          {
+            "title": "Pseudo",
+            "code": "print('ok')"
+          }
+        ]
+      },
+      "footer": {
+        "revision_history": {
+          "revisions": [
+            {
+              "date": "2024-01-02",
+              "version": "1.0.0",
+              "updated_by": "Sample Owner",
+              "summary_of_change": "Initial draft."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

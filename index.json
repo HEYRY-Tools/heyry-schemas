@@ -47,6 +47,15 @@
       "description": "Chronological record of document updates capturing the version, author, and key summary for each change entry."
     },
     {
+      "id": "https://schema.heyry.tools/documents/specification/v1/specification.schema.json",
+      "name": "Specification Document",
+      "domain": "documents",
+      "version": "1.0.0",
+      "status": "draft",
+      "path": "schemas/documents/specification/v1/specification.schema.json",
+      "description": "Structured specification template combining standard document headers, scoped body content, and a revision history footer."
+    },
+    {
       "id": "https://schema.heyry.tools/registry/index/v1/index.schema.json",
       "name": "HEYRY Tools Schema Registry Index",
       "domain": "registry",

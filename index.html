@@ -1,16 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>HEYRY Tools Schemas</title>
+    <style>
+      :root {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #111;
+        background-color: #f7f7f7;
+      }
+
+      body {
+        margin: 0;
+        padding: 2rem;
+      }
+
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 0.5rem;
+        padding: 2rem;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      h1,
+      h2 {
+        margin-top: 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      th,
+      td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #e5e5e5;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background-color: #f0f0f0;
+      }
+
+      caption {
+        text-align: left;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .status {
+        display: inline-block;
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        background-color: #e4ecff;
+        color: #1f4ab8;
+      }
+
+      .status.draft {
+        background-color: #fff4cc;
+        color: #7a4b00;
+      }
+
+      .muted {
+        color: #555;
+        font-size: 0.95rem;
+      }
+
+      .loading,
+      .error {
+        padding: 1rem;
+        border-radius: 0.25rem;
+      }
+
+      .loading {
+        background-color: #eef6ff;
+        color: #094067;
+      }
+
+      .error {
+        background-color: #ffecec;
+        color: #8b0000;
+      }
+    </style>
   </head>
   <body>
-    <h1>HEYRY Tools Schemas</h1>
-    <p>This site hosts the public JSON schema registry for HEYRY Tools.</p>
-    <p><a href="index.json">View the schema index</a></p>
-    <section>
-      <h2>Repository Documentation</h2>
-      <p>Refer to the <a href="README.md">README</a> for usage guidance or review the <a href="LICENSE">LICENSE</a> for distribution terms.</p>
-    </section>
+    <main>
+      <header>
+        <h1>HEYRY Tools Schemas</h1>
+        <p class="muted">
+          This site hosts the public JSON schema registry for HEYRY Tools. The
+          listing below is automatically rendered from the
+          <a href="index.json">index.json</a> file that powers the registry.
+        </p>
+      </header>
+
+      <section id="schema-registry">
+        <p class="loading">Loading schema registry…</p>
+      </section>
+
+      <section>
+        <h2>Repository Documentation</h2>
+        <p>
+          Refer to the <a href="README.md">README</a> for usage guidance or
+          review the <a href="LICENSE">LICENSE</a> for distribution terms.
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const container = document.getElementById("schema-registry");
+
+      function renderTable(schemas) {
+        if (!Array.isArray(schemas) || schemas.length === 0) {
+          container.innerHTML = "<p class=\"error\">No schemas found in the registry index.</p>";
+          return;
+        }
+
+        const table = document.createElement("table");
+        const caption = document.createElement("caption");
+        caption.textContent = `Listing ${schemas.length} schema${schemas.length === 1 ? "" : "s"}`;
+        table.appendChild(caption);
+
+        const thead = document.createElement("thead");
+        thead.innerHTML = `
+          <tr>
+            <th scope="col">Domain</th>
+            <th scope="col">Schema</th>
+            <th scope="col">Version</th>
+            <th scope="col">Status</th>
+            <th scope="col">Description</th>
+          </tr>`;
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        schemas
+          .slice()
+          .sort((a, b) => {
+            const domainCompare = a.domain.localeCompare(b.domain);
+            if (domainCompare !== 0) {
+              return domainCompare;
+            }
+            return a.name.localeCompare(b.name);
+          })
+          .forEach((schema) => {
+            const row = document.createElement("tr");
+
+            const domainCell = document.createElement("td");
+            domainCell.textContent = schema.domain;
+
+            const nameCell = document.createElement("td");
+            const link = document.createElement("a");
+            link.href = schema.id;
+            link.textContent = schema.name;
+            link.rel = "noopener";
+            link.target = "_blank";
+            const path = document.createElement("div");
+            path.className = "muted";
+            path.textContent = schema.path;
+            nameCell.appendChild(link);
+            nameCell.appendChild(path);
+
+            const versionCell = document.createElement("td");
+            versionCell.textContent = schema.version;
+
+            const statusCell = document.createElement("td");
+            const statusBadge = document.createElement("span");
+            statusBadge.className = `status ${schema.status.toLowerCase()}`;
+            statusBadge.textContent = schema.status;
+            statusCell.appendChild(statusBadge);
+
+            const descriptionCell = document.createElement("td");
+            descriptionCell.textContent = schema.description;
+
+            row.appendChild(domainCell);
+            row.appendChild(nameCell);
+            row.appendChild(versionCell);
+            row.appendChild(statusCell);
+            row.appendChild(descriptionCell);
+
+            tbody.appendChild(row);
+          });
+
+        table.appendChild(tbody);
+        container.innerHTML = "";
+        container.appendChild(table);
+      }
+
+      function renderError(message) {
+        container.innerHTML = `<p class="error">${message}</p>`;
+      }
+
+      fetch("index.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Unable to load index.json (HTTP ${response.status})`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (!data || typeof data !== "object") {
+            throw new Error("Registry index is malformed.");
+          }
+          renderTable(data.schemas);
+        })
+        .catch((error) => {
+          renderError(error.message);
+        });
+    </script>
   </body>
 </html>

@@ -62,6 +62,17 @@
           "minItems": 1,
           "uniqueItems": true
         },
+        "non_goals": {
+          "type": "array",
+          "description": "Explicitly documented items that are intentionally excluded from the specification's objectives.",
+          "items": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 1000
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
         "scope": {
           "type": "object",
           "description": "Explicit in-scope and optional out-of-scope boundaries for the specification.",
@@ -91,6 +102,37 @@
             "in_scope"
           ],
           "additionalProperties": false
+        },
+        "stakeholders": {
+          "type": "array",
+          "description": "Roles or groups impacted by, accountable for, or consulted on the specification.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 200
+              },
+              "role": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 500
+              },
+              "contact": {
+                "type": "string",
+                "description": "Optional contact information such as an email address or mailing list.",
+                "minLength": 5,
+                "maxLength": 500
+              }
+            },
+            "required": [
+              "name",
+              "role"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
         },
         "requirements": {
           "type": "array",
@@ -161,6 +203,172 @@
           "description": "High-level architecture or design notes that explain how the requirements are satisfied.",
           "minLength": 40,
           "maxLength": 20000
+        },
+        "alternatives": {
+          "type": "array",
+          "description": "Considered solution options, including their trade-offs and final decision.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "option": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 2000
+              },
+              "pros": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 1000
+                },
+                "minItems": 1
+              },
+              "cons": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 1000
+                },
+                "minItems": 1
+              },
+              "decision": {
+                "type": "string",
+                "description": "Outcome for this option (for example: selected, rejected, deferred).",
+                "minLength": 3,
+                "maxLength": 100
+              }
+            },
+            "required": [
+              "option"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "Systems, repositories, or external prerequisites that this specification depends on.",
+          "items": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 1000
+          },
+          "minItems": 1
+        },
+        "risks": {
+          "type": "array",
+          "description": "Identified risks, their impact, and planned mitigations.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "risk": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 4000
+              },
+              "impact": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 100
+              },
+              "mitigation": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 4000
+              },
+              "owner": {
+                "type": "string",
+                "description": "Optional owner accountable for tracking this risk.",
+                "minLength": 3,
+                "maxLength": 200
+              }
+            },
+            "required": [
+              "risk",
+              "impact",
+              "mitigation"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "open_questions": {
+          "type": "array",
+          "description": "Outstanding questions that must be resolved before implementation or release.",
+          "items": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 2000
+          },
+          "minItems": 1
+        },
+        "implementation_plan": {
+          "type": "array",
+          "description": "Concrete steps, owners, and estimates used to implement this specification.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 4000
+              },
+              "owner": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 200
+              },
+              "estimate": {
+                "type": "string",
+                "description": "Time or effort estimate (for example: 1w, 3d).",
+                "minLength": 2,
+                "maxLength": 50
+              },
+              "status": {
+                "type": "string",
+                "description": "Free-form status indicator for the step (for example: todo, in_progress, done).",
+                "minLength": 2,
+                "maxLength": 50
+              }
+            },
+            "required": [
+              "step"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "decision_log": {
+          "type": "array",
+          "description": "Chronological log of key decisions made while refining the specification.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "decision": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 4000
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "date",
+              "decision",
+              "rationale"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
         },
         "validation_plan": {
           "type": "array",

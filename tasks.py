@@ -8,6 +8,7 @@ VALIDATION_SCRIPTS = (
   "scripts/validate_schema_metadata.py",
   "scripts/validate_pretty_format.py",
   "scripts/validate_examples.py",
+  "scripts/generate_index.py --check",
 )
 
 

@@ -1,220 +1,320 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HEYRY Tools Schemas</title>
+    <title>HEYRY Tools Schema Registry</title>
     <style>
       :root {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        color: #111;
-        background-color: #f7f7f7;
+        color-scheme: light dark;
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+        --page-bg: #0f1115;
+        --page-fg: #f5f7fb;
+        --card-bg: #181b21;
+        --border: #2a2f3a;
+        --accent: #63b3ed;
+        --muted: #8b93a7;
+        --draft: #f6ad55;
+        --approved: #68d391;
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --page-bg: #f6f8fb;
+          --page-fg: #0e1729;
+          --card-bg: #ffffff;
+          --border: #dce1ec;
+          --accent: #2563eb;
+          --muted: #5f6b87;
+          --draft: #dd6b20;
+          --approved: #2f855a;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       body {
         margin: 0;
-        padding: 2rem;
+        min-height: 100vh;
+        background: var(--page-bg);
+        color: var(--page-fg);
+      }
+
+      header {
+        padding: 3rem 1.5rem 1rem;
+        text-align: center;
+      }
+
+      header h1 {
+        margin: 0 0 0.5rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+      }
+
+      header p {
+        margin: 0 auto 1rem;
+        max-width: 48rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      header a.cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--accent);
+        color: #fff;
+        padding: 0.65rem 1.2rem;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 600;
       }
 
       main {
-        max-width: 960px;
+        padding: 1rem 1.5rem 3rem;
+        max-width: 1200px;
         margin: 0 auto;
-        background-color: #fff;
-        border-radius: 0.5rem;
-        padding: 2rem;
-        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
       }
 
-      h1,
-      h2 {
-        margin-top: 0;
+      .panel {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        box-shadow: 0 25px 50px rgba(15, 17, 21, 0.35);
+      }
+
+      .panel h2 {
+        margin: 0;
+      }
+
+      .panel p.meta {
+        color: var(--muted);
+        margin-top: 0.35rem;
+      }
+
+      .status-legend {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.2rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+      }
+
+      .status-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+      }
+
+      .status-dot.draft {
+        background: var(--draft);
+      }
+
+      .status-dot.approved {
+        background: var(--approved);
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+        margin-top: 1.5rem;
+        border-radius: 1rem;
+        border: 1px solid var(--border);
       }
 
       table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 1rem;
+        min-width: 640px;
+      }
+
+      thead {
+        background: rgba(99, 179, 237, 0.08);
       }
 
       th,
       td {
-        padding: 0.75rem;
-        border-bottom: 1px solid #e5e5e5;
+        padding: 0.85rem 1rem;
         text-align: left;
-        vertical-align: top;
       }
 
       th {
-        background-color: #f0f0f0;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        color: var(--muted);
       }
 
-      caption {
-        text-align: left;
+      tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      tbody tr:hover {
+        background: rgba(99, 179, 237, 0.08);
+      }
+
+      td a {
+        color: var(--accent);
         font-weight: 600;
-        margin-bottom: 0.5rem;
+        text-decoration: none;
       }
 
-      .status {
-        display: inline-block;
-        padding: 0.1rem 0.5rem;
+      td .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.2rem 0.65rem;
         border-radius: 999px;
         font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        background-color: #e4ecff;
-        color: #1f4ab8;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.08);
       }
 
-      .status.draft {
-        background-color: #fff4cc;
-        color: #7a4b00;
+      td .status.draft {
+        color: var(--draft);
       }
 
-      .muted {
-        color: #555;
-        font-size: 0.95rem;
+      td .status.approved {
+        color: var(--approved);
       }
 
-      .loading,
-      .error {
+      .state-message {
+        margin-top: 1.5rem;
         padding: 1rem;
-        border-radius: 0.25rem;
+        border-radius: 0.75rem;
+        border: 1px dashed var(--border);
+        color: var(--muted);
       }
 
-      .loading {
-        background-color: #eef6ff;
-        color: #094067;
+      .state-message.error {
+        border-color: #f56565;
+        color: #fed7d7;
+        background: rgba(245, 101, 101, 0.15);
       }
 
-      .error {
-        background-color: #ffecec;
-        color: #8b0000;
+      .hidden {
+        display: none;
       }
     </style>
   </head>
   <body>
+    <header>
+      <h1>HEYRY Tools Schema Registry</h1>
+      <p>Browse every published HEYRY JSON Schema, track ownership domains, and review approval status directly from the canonical registry index.</p>
+      <a class="cta" href="index.json" rel="noopener">Open index.json</a>
+    </header>
     <main>
-      <header>
-        <h1>HEYRY Tools Schemas</h1>
-        <p class="muted">
-          This site hosts the public JSON schema registry for HEYRY Tools. The
-          listing below is automatically rendered from the
-          <a href="index.json">index.json</a> file that powers the registry.
-        </p>
-      </header>
-
-      <section id="schema-registry">
-        <p class="loading">Loading schema registry…</p>
-      </section>
-
-      <section>
-        <h2>Repository Documentation</h2>
-        <p>
-          Refer to the <a href="README.md">README</a> for usage guidance or
-          review the <a href="LICENSE">LICENSE</a> for distribution terms.
-        </p>
+      <section class="panel">
+        <h2>Schema Catalog</h2>
+        <p class="meta">Data served from the generated <code>index.json</code> file.</p>
+        <div class="status-legend">
+          <span class="status-pill"><span class="status-dot approved"></span>Approved</span>
+          <span class="status-pill"><span class="status-dot draft"></span>Draft</span>
+        </div>
+        <div id="loading" class="state-message">Loading schema catalog…</div>
+        <div id="error" class="state-message error hidden">Unable to load <code>index.json</code>. Confirm the file exists and is valid.</div>
+        <div class="table-wrapper hidden" id="table-wrapper">
+          <table aria-describedby="table-caption">
+            <caption id="table-caption" class="hidden">HEYRY Tools schema catalog</caption>
+            <thead>
+              <tr>
+                <th scope="col">Domain</th>
+                <th scope="col">Schema</th>
+                <th scope="col">Version</th>
+                <th scope="col">Status</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody id="schema-rows"></tbody>
+          </table>
+        </div>
       </section>
     </main>
-
     <script>
-      const container = document.getElementById("schema-registry");
+      const loading = document.getElementById("loading");
+      const errorBox = document.getElementById("error");
+      const tableWrapper = document.getElementById("table-wrapper");
+      const tableBody = document.getElementById("schema-rows");
 
-      function renderTable(schemas) {
-        if (!Array.isArray(schemas) || schemas.length === 0) {
-          container.innerHTML = "<p class=\"error\">No schemas found in the registry index.</p>";
-          return;
-        }
-
-        const table = document.createElement("table");
-        const caption = document.createElement("caption");
-        caption.textContent = `Listing ${schemas.length} schema${schemas.length === 1 ? "" : "s"}`;
-        table.appendChild(caption);
-
-        const thead = document.createElement("thead");
-        thead.innerHTML = `
-          <tr>
-            <th scope="col">Domain</th>
-            <th scope="col">Schema</th>
-            <th scope="col">Version</th>
-            <th scope="col">Status</th>
-            <th scope="col">Description</th>
-          </tr>`;
-        table.appendChild(thead);
-
-        const tbody = document.createElement("tbody");
-        schemas
-          .slice()
-          .sort((a, b) => {
-            const domainCompare = a.domain.localeCompare(b.domain);
-            if (domainCompare !== 0) {
-              return domainCompare;
-            }
-            return a.name.localeCompare(b.name);
-          })
-          .forEach((schema) => {
-            const row = document.createElement("tr");
-
-            const domainCell = document.createElement("td");
-            domainCell.textContent = schema.domain;
-
-            const nameCell = document.createElement("td");
-            const link = document.createElement("a");
-            link.href = schema.id;
-            link.textContent = schema.name;
-            link.rel = "noopener";
-            link.target = "_blank";
-            const path = document.createElement("div");
-            path.className = "muted";
-            path.textContent = schema.path;
-            nameCell.appendChild(link);
-            nameCell.appendChild(path);
-
-            const versionCell = document.createElement("td");
-            versionCell.textContent = schema.version;
-
-            const statusCell = document.createElement("td");
-            const statusBadge = document.createElement("span");
-            statusBadge.className = `status ${schema.status.toLowerCase()}`;
-            statusBadge.textContent = schema.status;
-            statusCell.appendChild(statusBadge);
-
-            const descriptionCell = document.createElement("td");
-            descriptionCell.textContent = schema.description;
-
-            row.appendChild(domainCell);
-            row.appendChild(nameCell);
-            row.appendChild(versionCell);
-            row.appendChild(statusCell);
-            row.appendChild(descriptionCell);
-
-            tbody.appendChild(row);
-          });
-
-        table.appendChild(tbody);
-        container.innerHTML = "";
-        container.appendChild(table);
+      function renderStatus(status) {
+        const span = document.createElement("span");
+        span.className = `status ${status}`;
+        span.textContent = status.replace(/\b\w/g, (letter) => letter.toUpperCase());
+        return span;
       }
 
-      function renderError(message) {
-        container.innerHTML = `<p class="error">${message}</p>`;
+      function renderRow(entry) {
+        const row = document.createElement("tr");
+        const domain = document.createElement("td");
+        domain.textContent = entry.domain;
+
+        const name = document.createElement("td");
+        const link = document.createElement("a");
+        link.href = entry.id;
+        link.textContent = entry.name;
+        link.target = "_blank";
+        link.rel = "noopener";
+        name.appendChild(link);
+        const path = document.createElement("div");
+        path.textContent = entry.path;
+        path.style.fontSize = "0.8rem";
+        path.style.color = "var(--muted)";
+        name.appendChild(path);
+
+        const version = document.createElement("td");
+        version.textContent = entry.version;
+
+        const status = document.createElement("td");
+        status.appendChild(renderStatus(entry.status));
+
+        const description = document.createElement("td");
+        description.textContent = entry.description;
+
+        row.append(domain, name, version, status, description);
+        return row;
       }
 
-      fetch("index.json")
-        .then((response) => {
+      async function loadRegistry() {
+        try {
+          const response = await fetch("index.json", { cache: "no-store" });
           if (!response.ok) {
-            throw new Error(`Unable to load index.json (HTTP ${response.status})`);
+            throw new Error(`HTTP ${response.status}`);
           }
-          return response.json();
-        })
-        .then((data) => {
-          if (!data || typeof data !== "object") {
-            throw new Error("Registry index is malformed.");
+          const payload = await response.json();
+          const schemas = payload.schemas || [];
+          if (!schemas.length) {
+            const empty = document.createElement("div");
+            empty.className = "state-message";
+            empty.textContent = "The registry is empty.";
+            loading.replaceWith(empty);
+            return;
           }
-          renderTable(data.schemas);
-        })
-        .catch((error) => {
-          renderError(error.message);
-        });
+
+          schemas.forEach((schema) => {
+            tableBody.appendChild(renderRow(schema));
+          });
+          tableWrapper.classList.remove("hidden");
+          loading.classList.add("hidden");
+        } catch (err) {
+          console.error("Failed to load index.json", err);
+          loading.classList.add("hidden");
+          errorBox.classList.remove("hidden");
+        }
+      }
+
+      loadRegistry();
     </script>
   </body>
 </html>

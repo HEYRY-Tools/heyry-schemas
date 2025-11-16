@@ -302,7 +302,7 @@
             "minLength": 10,
             "maxLength": 2000
           },
-          "minItems": 1
+          "minItems": 0
         },
         "implementation_plan": {
           "type": "array",
@@ -369,6 +369,22 @@
             "additionalProperties": false
           },
           "minItems": 1
+        },
+        "gates": {
+          "type": "object",
+          "description": "Readiness gates that summarize whether the specification is ready for review, implementation, or release.",
+          "properties": {
+            "ready_for_review": {
+              "type": "boolean"
+            },
+            "ready_for_implementation": {
+              "type": "boolean"
+            },
+            "ready_for_release": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
         },
         "validation_plan": {
           "type": "array",

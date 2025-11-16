@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.heyry.tools/documents/document-header/v1/document-header.schema.json",
+  "title": "Document Header",
+  "description": "Standard document header metadata for specifications, policies, and procedures.",
+  "schema_version": "1.0.0",
+  "domain": "documents",
+  "owner_role": "knowledge_management_team",
+  "status": "draft",
+  "heyry_id": "H7C2-L8F9-Z8XK-A3",
+  "copyright": "Copyright HEYRY Tools. All rights reserved.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Human-readable document title.",
+      "minLength": 5,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "description": "Short summary of the document's intent and scope.",
+      "minLength": 10,
+      "maxLength": 2000
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 calendar date when the document was first authored."
+    },
+    "last_updated_date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 calendar date for the most recent substantive update."
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date by which the document must be completed."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Classification keywords for quick filtering.",
+      "items": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 50
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "links": {
+      "type": "array",
+      "description": "Supporting reference links (e.g., canonical URL, discussion thread).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Describes the link destination (e.g., Source of Truth).",
+            "minLength": 3,
+            "maxLength": 100
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Absolute URL for the linked resource."
+          }
+        },
+        "required": [
+          "label",
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "created_date",
+    "last_updated_date",
+    "tags",
+    "links"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "title": "Secure Code Review Procedure",
+      "description": "Outlines the required steps, reviewers, and evidence for publishing production code.",
+      "created_date": "2024-01-15",
+      "last_updated_date": "2024-05-02",
+      "due_date": "2024-06-01",
+      "tags": [
+        "security",
+        "engineering"
+      ],
+      "links": [
+        {
+          "label": "Canonical Document",
+          "url": "https://intranet.heyry.tools/docs/secure-code-review"
+        },
+        {
+          "label": "Change Log",
+          "url": "https://intranet.heyry.tools/changelog/secure-code-review"
+        }
+      ]
+    }
+  ]
+}

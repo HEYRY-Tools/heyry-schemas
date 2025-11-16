@@ -8,6 +8,7 @@
   "owner_role": "schema_registry_team",
   "status": "approved",
   "heyry_id": "LNW9-UEXX-LCG5-09",
+  "copyright": "Copyright HEYRY Tools. All rights reserved.",
   "type": "object",
   "properties": {
     "$schema": {

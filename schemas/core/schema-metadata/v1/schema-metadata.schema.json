@@ -8,6 +8,7 @@
   "owner_role": "schema_registry_team",
   "status": "approved",
   "heyry_id": "4N46-GFYY-1GH1-21",
+  "copyright": "Copyright HEYRY Tools. All rights reserved.",
   "type": "object",
   "properties": {
     "$schema": {
@@ -48,6 +49,11 @@
     },
     "heyry_id": {
       "$ref": "https://schema.heyry.tools/core/heyry-id/v1/heyry-id.schema.json"
+    },
+    "copyright": {
+      "type": "string",
+      "minLength": 10,
+      "default": "Copyright HEYRY Tools. All rights reserved."
     }
   },
   "required": [
@@ -59,7 +65,8 @@
     "domain",
     "owner_role",
     "status",
-    "heyry_id"
+    "heyry_id",
+    "copyright"
   ],
   "additionalProperties": true
 }

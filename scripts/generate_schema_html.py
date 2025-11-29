@@ -113,8 +113,8 @@ def generate_html(schema_path: Path, output_root: Path) -> None:
   html_content = build_html(schema_path, schema, formatted_json)
 
   relative = schema_path.relative_to(SCHEMAS_ROOT)
-  output_path = output_root / relative
-  output_path = output_path.with_suffix(".schema.html")
+  html_filename = relative.name.replace(".schema.json", ".schema.html")
+  output_path = output_root / relative.parent / html_filename
   output_path.parent.mkdir(parents=True, exist_ok=True)
   output_path.write_text(html_content, encoding="utf-8")
 

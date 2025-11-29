@@ -149,6 +149,27 @@ def build_index_html() -> str:
             font-size: 0.9rem;
           }
 
+          .resource-links {
+            margin-top: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 0.9rem;
+          }
+
+          .resource-links a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+          }
+
+          .resource-links .file-path {
+            color: var(--muted);
+            font-family: "SFMono-Regular", Consolas, ui-monospace, Menlo, monospace;
+          }
+
           .status-pill {
             display: inline-flex;
             align-items: center;
@@ -312,11 +333,28 @@ def build_index_html() -> str:
             link.target = "_blank";
             link.rel = "noopener";
             name.appendChild(link);
-            const path = document.createElement("div");
+            const resources = document.createElement("div");
+            resources.className = "resource-links";
+
+            const jsonLink = document.createElement("a");
+            jsonLink.href = entry.path;
+            jsonLink.textContent = "JSON";
+            jsonLink.target = "_blank";
+            jsonLink.rel = "noopener";
+
+            const htmlPath = entry.path.replace(".schema.json", ".schema.html");
+            const htmlLink = document.createElement("a");
+            htmlLink.href = htmlPath;
+            htmlLink.textContent = "HTML";
+            htmlLink.target = "_blank";
+            htmlLink.rel = "noopener";
+
+            const path = document.createElement("span");
+            path.className = "file-path";
             path.textContent = entry.path;
-            path.style.fontSize = "0.8rem";
-            path.style.color = "var(--muted)";
-            name.appendChild(path);
+
+            resources.append(jsonLink, htmlLink, path);
+            name.appendChild(resources);
 
             const version = document.createElement("td");
             version.textContent = entry.version;

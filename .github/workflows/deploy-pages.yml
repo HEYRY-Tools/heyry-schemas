@@ -22,6 +22,8 @@ jobs:
           mkdir -p site
           cp -a schemas/. site/
           cp index.html index.json site/
+      - name: Generate schema HTML renderings
+        run: python scripts/generate_schema_html.py --output-dir site
       - name: Upload schema artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -7,7 +7,9 @@ import json
 import sys
 from pathlib import Path
 
-from jsonschema import Draft7Validator, RefResolver, ValidationError
+from jsonschema import Draft7Validator, ValidationError
+from referencing import Registry, Resource
+from referencing.jsonschema import DRAFT7
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -40,6 +42,9 @@ def find_schema_path(schema_uri: str) -> Path:
 
 def main() -> int:
   schema_store = build_schema_store()
+  registry = Registry().with_resources(
+    [(schema_id, Resource.from_contents(schema, default_specification=DRAFT7)) for schema_id, schema in schema_store.items()]
+  )
   example_files = sorted(EXAMPLES_ROOT.rglob("*.json"))
 
   has_error = False
@@ -58,8 +63,7 @@ def main() -> int:
       continue
 
     schema_data = load_json(schema_path)
-    resolver = RefResolver(base_uri=schema_uri, referrer=schema_data, store=schema_store)
-    validator = Draft7Validator(schema_data, resolver=resolver)
+    validator = Draft7Validator(schema_data, registry=registry)
 
     try:
       validator.validate(example_data)

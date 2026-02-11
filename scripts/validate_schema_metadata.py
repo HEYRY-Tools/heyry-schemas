@@ -7,7 +7,9 @@ import json
 import sys
 from pathlib import Path
 
-from jsonschema import Draft7Validator, RefResolver, ValidationError
+from jsonschema import Draft7Validator, ValidationError
+from referencing import Registry, Resource
+from referencing.jsonschema import DRAFT7
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -30,14 +32,13 @@ def main() -> int:
   meta_schema = load_json(META_SCHEMA_PATH)
   heyr_id_schema = load_json(HEYRY_ID_SCHEMA_PATH)
   semver_schema = load_json(SEMVER_SCHEMA_PATH)
-  resolver = RefResolver.from_schema(
-    meta_schema,
-    store={
-      HEYRY_ID_SCHEMA_ID: heyr_id_schema,
-      SEMVER_SCHEMA_ID: semver_schema,
-    },
+  registry = Registry().with_resources(
+    [
+      (HEYRY_ID_SCHEMA_ID, Resource.from_contents(heyr_id_schema, default_specification=DRAFT7)),
+      (SEMVER_SCHEMA_ID, Resource.from_contents(semver_schema, default_specification=DRAFT7)),
+    ]
   )
-  validator = Draft7Validator(meta_schema, resolver=resolver)
+  validator = Draft7Validator(meta_schema, registry=registry)
 
   schema_files = sorted(SCHEMAS_ROOT.rglob("*.schema.json"))
 

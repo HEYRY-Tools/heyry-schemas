@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -16,11 +17,24 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS_ROOT = REPO_ROOT / "schemas"
 EXAMPLES_ROOT = REPO_ROOT / "examples"
 SCHEMA_BASE_URL = "https://schema.heyry.tools/"
+EXAMPLE_VERSION_PATTERN = re.compile(r"^v\d+$")
 
 
 def load_json(path: Path):
   with path.open("r", encoding="utf-8") as handle:
     return json.load(handle)
+
+
+def validate_example_location(example_path: Path) -> str | None:
+  relative_parts = example_path.relative_to(EXAMPLES_ROOT).parts
+  if len(relative_parts) < 3:
+    return "example path must follow examples/<domain>/<version>/<file>.json"
+
+  version = relative_parts[1]
+  if not EXAMPLE_VERSION_PATTERN.match(version):
+    return "example path version directory must follow v<major>"
+
+  return None
 
 
 def build_schema_store() -> dict[str, dict]:
@@ -49,20 +63,44 @@ def main() -> int:
 
   has_error = False
   for example_path in example_files:
-    example_data = load_json(example_path)
+    location_error = validate_example_location(example_path)
+    if location_error:
+      has_error = True
+      print(f"FAIL {example_path.relative_to(REPO_ROOT)}: {location_error}")
+      continue
+
+    try:
+      example_data = load_json(example_path)
+    except json.JSONDecodeError as exc:
+      has_error = True
+      print(f"FAIL {example_path.relative_to(REPO_ROOT)}: invalid JSON ({exc})")
+      continue
+
     schema_uri = example_data.get("$schema")
     if not schema_uri:
       has_error = True
       print(f"FAIL {example_path.relative_to(REPO_ROOT)}: missing $schema property")
       continue
 
-    schema_path = find_schema_path(schema_uri)
+    try:
+      schema_path = find_schema_path(schema_uri)
+    except FileNotFoundError as exc:
+      has_error = True
+      print(f"FAIL {example_path.relative_to(REPO_ROOT)}: {exc}")
+      continue
+
     if not schema_path.exists():
       has_error = True
       print(f"FAIL {example_path.relative_to(REPO_ROOT)}: schema not found at {schema_path.relative_to(REPO_ROOT)}")
       continue
 
-    schema_data = load_json(schema_path)
+    try:
+      schema_data = load_json(schema_path)
+    except json.JSONDecodeError as exc:
+      has_error = True
+      print(f"FAIL {example_path.relative_to(REPO_ROOT)}: invalid schema JSON ({exc})")
+      continue
+
     validator = Draft7Validator(schema_data, registry=registry)
 
     try:
